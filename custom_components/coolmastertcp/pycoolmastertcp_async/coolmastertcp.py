@@ -19,14 +19,16 @@ _SWING_NAME_TO_CHAR = {value: key for key, value in _SWING_CHAR_TO_NAME.items()}
 SWING_MODES = list(_SWING_CHAR_TO_NAME.values())
 
 
-class CoolMasterTCP():
+class CoolMasterTCP:
     """A connection to a coolmaster 1000d."""
 
     def __init__(self, host, port=4196, read_timeout=1, swing_support=False):
         """Initialize this CoolMasterNet instance to connect to a particular
         host at a particular port."""
-        logging.getLogger(__name__).info(f"Initializing CoolMaster in pycoolmastertcp_async")
-        
+        logging.getLogger(__name__).info(
+            f"Initializing CoolMaster in pycoolmastertcp_async"
+        )
+
         self._host = host
         self._port = port
         self._read_timeout = read_timeout
@@ -36,16 +38,17 @@ class CoolMasterTCP():
     async def _make_request(self, request):
         """Send a request to the CoolMasterNet and returns the response."""
         async with self._concurrent_reads:
-
             reader, writer = await asyncio.open_connection(self._host, self._port)
 
             try:
                 # prompt = await asyncio.wait_for(reader.readuntil(b">"), self._read_timeout)
                 # if prompt != b">":
-                    # raise ConnectionError("CoolMasterNet prompt not found")
+                # raise ConnectionError("CoolMasterNet prompt not found")
 
                 writer.write((request + "\n").encode("ascii"))
-                response = await asyncio.wait_for(reader.readuntil(b"\n>"), self._read_timeout)
+                response = await asyncio.wait_for(
+                    reader.readuntil(b"\n>"), self._read_timeout
+                )
 
                 data = response.decode("ascii")
                 if data.endswith("\n>"):
@@ -56,7 +59,7 @@ class CoolMasterTCP():
 
                 # drop the first line if it's the same as the request
                 if data.startswith(request):
-                    data = data[len(request):]
+                    data = data[len(request) :]
 
                 return data
             finally:
@@ -76,12 +79,17 @@ class CoolMasterTCP():
         return {
             key: unit
             for unit, key in await asyncio.gather(
-                *(CoolMasterTCPUnit.create(self, line[0:3], line) for line in status_lines))
+                *(
+                    CoolMasterTCPUnit.create(self, line[0:3], line)
+                    for line in status_lines
+                )
+            )
         }
 
 
-class CoolMasterTCPUnit():
+class CoolMasterTCPUnit:
     """An immutable snapshot of a unit."""
+
     def __init__(self, bridge, unit_id, raw, swing_raw):
         """Initialize a unit snapshot."""
         self._raw = raw
@@ -93,9 +101,12 @@ class CoolMasterTCPUnit():
     @classmethod
     async def create(cls, bridge, unit_id, raw=None):
         if raw is None:
-            raw = (await bridge._make_request(f"stat2 {unit_id}")).strip()   
-        swing_raw = ((await bridge._make_request(f"query {unit_id} s")).strip() 
-            if bridge._swing_support else "")
+            raw = (await bridge._make_request(f"stat2 {unit_id}")).strip()
+        swing_raw = (
+            (await bridge._make_request(f"query {unit_id} s")).strip()
+            if bridge._swing_support
+            else ""
+        )
         return CoolMasterTCPUnit(bridge, unit_id, raw, swing_raw), unit_id
 
     def _parse(self):
@@ -105,8 +116,8 @@ class CoolMasterTCPUnit():
 
         self._is_on = fields[1] == "ON"
         self._temperature_unit = "imperial" if fields[2][-1] == "F" else "celsius"
-        self._thermostat = float(fields[2][:-1].replace(',', '.'))
-        self._temperature = float(fields[3][:-1].replace(',', '.'))
+        self._thermostat = float(fields[2][:-1].replace(",", "."))
+        self._temperature = float(fields[3][:-1].replace(",", "."))
         self._fan_speed = fields[4].lower()
         self._mode = fields[5].lower()
         self._error_code = fields[6] if fields[6] != "OK" else None
@@ -129,7 +140,7 @@ class CoolMasterTCPUnit():
     def is_on(self):
         """Is the unit on."""
         return self._is_on
-    
+
     @property
     def thermostat(self):
         """The target temperature."""
@@ -168,7 +179,7 @@ class CoolMasterTCPUnit():
     @property
     def temperature_unit(self):
         return self._temperature_unit
-    
+
     async def set_fan_speed(self, value):
         """Set the fan speed."""
         await self._make_unit_request(f"fspeed UID {value}")
@@ -197,7 +208,9 @@ class CoolMasterTCPUnit():
                 f"Unrecognized swing mode {value}. Valid values: {', '.join(SWING_MODES)}"
             )
 
-        return_value = await self._make_unit_request(f"swing UID {_SWING_NAME_TO_CHAR[value]}")
+        return_value = await self._make_unit_request(
+            f"swing UID {_SWING_NAME_TO_CHAR[value]}"
+        )
         if return_value.startswith("Unsupported Feature"):
             raise ValueError(
                 f"Unit {self._unit_id} doesn't support swing mode {value}."

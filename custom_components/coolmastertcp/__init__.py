@@ -1,5 +1,5 @@
 """The Coolmaster integration."""
-from .pycoolmastertcp_async import CoolMasterTCP
+from .pycoolmastertcp_async.coolmastertcp import CoolMasterTCP
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_HOST, CONF_PORT, Platform
