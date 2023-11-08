@@ -1,0 +1,1 @@
+# Coolmaster 1000D Integration for Home Assistant

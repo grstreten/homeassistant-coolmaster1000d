@@ -1,0 +1,16 @@
+{
+    "domain": "coolmaster1000d",
+    "name": "CoolMaster over TCP",
+    "codeowners": [
+        "@grstreten"
+    ],
+    "config_flow": true,
+    "documentation": "https://www.home-assistant.io/integrations/coolmaster",
+    "iot_class": "local_polling",
+    "loggers": [
+        "pycoolmasternet_async"
+    ],
+    "requirements": [
+        "git+https://github.com/grstreten/pycoolmasternet-async.git#pycoolmasternet-async"
+    ]
+}
