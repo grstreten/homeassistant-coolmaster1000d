@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Any
 import logging
 
-from pycoolmastertcp_async import CoolMasterTCP
+from .pycoolmastertcp_async import CoolMasterTCP
 import voluptuous as vol
 
 from homeassistant import config_entries
