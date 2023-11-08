@@ -6,6 +6,7 @@ from typing import Any
 from pycoolmasternet_async import CoolMasterNet
 import voluptuous as vol
 
+from homeassistant import config_entries
 from homeassistant.components.climate import HVACMode
 from homeassistant.config_entries import ConfigFlow
 from homeassistant.const import CONF_HOST, CONF_PORT
@@ -40,6 +41,7 @@ async def _validate_connection(host: str) -> bool:
     return bool(units)
 
 
+@config_entries.HANDLERS.register(DOMAIN)
 class CoolmasterConfigFlow(ConfigFlow, domain=DOMAIN):
     """Handle a Coolmaster config flow."""
 

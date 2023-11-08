@@ -8,7 +8,6 @@ from homeassistant.exceptions import ConfigEntryNotReady
 
 from .const import CONF_SWING_SUPPORT, DATA_COORDINATOR, DATA_INFO, DOMAIN
 from .coordinator import CoolmasterDataUpdateCoordinator
-from .config_flow import CoolmasterConfigFlow
 
 PLATFORMS = [Platform.CLIMATE, Platform.BINARY_SENSOR, Platform.BUTTON, Platform.SENSOR]
 
