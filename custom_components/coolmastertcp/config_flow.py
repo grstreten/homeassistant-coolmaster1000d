@@ -85,13 +85,3 @@ class CoolmasterConfigFlow(ConfigFlow, domain=DOMAIN):
 
         return self._async_get_entry(user_input)
 
-    async def async_setup_entry(hass: Any, entry: ConfigEntry) -> bool:
-        """Set up platform from a ConfigEntry."""
-        hass.data.setdefault(DOMAIN, {})
-        hass.data[DOMAIN][entry.entry_id] = entry.data
-
-        hass.async_create_task(
-            hass.config_entries.async_forward_entry_setup(entry, "climate")
-        )
-        
-        return True
