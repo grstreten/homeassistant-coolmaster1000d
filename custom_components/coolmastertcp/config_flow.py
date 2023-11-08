@@ -42,7 +42,7 @@ async def _validate_connection(host: str) -> bool:
 
 
 @config_entries.HANDLERS.register(DOMAIN)
-class CoolmasterConfigFlow(ConfigFlow, domain=DOMAIN):
+class CoolmasterTCPConfigFlow(ConfigFlow, domain=DOMAIN):
     """Handle a Coolmaster config flow."""
 
     VERSION = 1
