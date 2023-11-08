@@ -1,5 +1,5 @@
 """The Coolmaster integration."""
-from pycoolmasternet_async import CoolMasterNet
+from pycoolmastertcp_async import CoolMasterTCP
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_HOST, CONF_PORT, Platform
@@ -17,7 +17,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     host = entry.data[CONF_HOST]
     port = entry.data[CONF_PORT]
     if not entry.data.get(CONF_SWING_SUPPORT):
-        coolmaster = CoolMasterNet(
+        coolmaster = CoolMasterTCP(
             host,
             port,
         )
@@ -25,7 +25,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         # Swing support adds an additional request per unit. The requests are
         # done in parallel, which can cause delays on the server. Therefore,
         # we increase the request timeout to 5 seconds instead of 1.
-        coolmaster = CoolMasterNet(
+        coolmaster = CoolMasterTCP(
             host,
             port,
             read_timeout=5,

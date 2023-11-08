@@ -2,8 +2,9 @@
 from __future__ import annotations
 
 from typing import Any
+import logging
 
-from pycoolmasternet_async import CoolMasterNet
+from pycoolmastertcp_async import CoolMasterTCP
 import voluptuous as vol
 
 from homeassistant import config_entries
@@ -36,7 +37,10 @@ DATA_SCHEMA = vol.Schema(
 
 
 async def _validate_connection(host: str) -> bool:
-    cool = CoolMasterNet(host, DEFAULT_PORT)
+    logging.getLogger(__name__).info(
+        f"Validating connection to {host} on port {DEFAULT_PORT}"
+    )
+    cool = CoolMasterTCP(host, DEFAULT_PORT)
     units = await cool.status()
     return bool(units)
 

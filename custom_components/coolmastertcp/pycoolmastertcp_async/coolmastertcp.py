@@ -1,5 +1,6 @@
 import asyncio
 import re
+import logging
 
 _MODES = ["auto", "cool", "dry", "fan", "heat"]
 
@@ -18,11 +19,14 @@ _SWING_NAME_TO_CHAR = {value: key for key, value in _SWING_CHAR_TO_NAME.items()}
 SWING_MODES = list(_SWING_CHAR_TO_NAME.values())
 
 
-class CoolMasterNet():
-    """A connection to a coolmasternet bridge."""
+class CoolMasterTCP():
+    """A connection to a coolmaster 1000d."""
+
     def __init__(self, host, port=4196, read_timeout=1, swing_support=False):
         """Initialize this CoolMasterNet instance to connect to a particular
         host at a particular port."""
+        logging.getLogger(__name__).info(f"Initializing CoolMaster in pycoolmastertcp_async")
+        
         self._host = host
         self._port = port
         self._read_timeout = read_timeout
@@ -72,11 +76,11 @@ class CoolMasterNet():
         return {
             key: unit
             for unit, key in await asyncio.gather(
-                *(CoolMasterNetUnit.create(self, line[0:3], line) for line in status_lines))
+                *(CoolMasterTCPUnit.create(self, line[0:3], line) for line in status_lines))
         }
 
 
-class CoolMasterNetUnit():
+class CoolMasterTCPUnit():
     """An immutable snapshot of a unit."""
     def __init__(self, bridge, unit_id, raw, swing_raw):
         """Initialize a unit snapshot."""
@@ -92,7 +96,7 @@ class CoolMasterNetUnit():
             raw = (await bridge._make_request(f"stat2 {unit_id}")).strip()   
         swing_raw = ((await bridge._make_request(f"query {unit_id} s")).strip() 
             if bridge._swing_support else "")
-        return CoolMasterNetUnit(bridge, unit_id, raw, swing_raw), unit_id
+        return CoolMasterTCPUnit(bridge, unit_id, raw, swing_raw), unit_id
 
     def _parse(self):
         fields = re.split(r"\s+", self._raw.strip())
@@ -114,7 +118,7 @@ class CoolMasterNetUnit():
 
     async def refresh(self):
         """Refresh the data from CoolMasterNet and return it as a new instance."""
-        return (await CoolMasterNetUnit.create(self._bridge, self._unit_id))[0]
+        return (await CoolMasterTCPUnit.create(self._bridge, self._unit_id))[0]
 
     @property
     def unit_id(self):

@@ -1,4 +1,4 @@
-"""Binary Sensor platform for CoolMasterNet integration."""
+"""Binary Sensor platform for CoolMasterTCP integration."""
 from __future__ import annotations
 
 from homeassistant.components.binary_sensor import (
@@ -20,7 +20,7 @@ async def async_setup_entry(
     config_entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Set up the CoolMasterNet binary_sensor platform."""
+    """Set up the CoolMasterTCP binary_sensor platform."""
     info = hass.data[DOMAIN][config_entry.entry_id][DATA_INFO]
     coordinator = hass.data[DOMAIN][config_entry.entry_id][DATA_COORDINATOR]
     async_add_entities(

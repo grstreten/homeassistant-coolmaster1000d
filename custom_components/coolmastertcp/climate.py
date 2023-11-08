@@ -1,10 +1,10 @@
-"""CoolMasterNet platform to control of CoolMasterNet Climate Devices."""
+"""CoolMasterTCP platform to control of CoolMasterTCP Climate Devices."""
 from __future__ import annotations
 
 import logging
 from typing import Any
 
-from pycoolmasternet_async import SWING_MODES
+from pycoolmastertcp_async import SWING_MODES
 
 from homeassistant.components.climate import (
     ClimateEntity,
@@ -44,7 +44,7 @@ async def async_setup_entry(
     config_entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Set up the CoolMasterNet climate platform."""
+    """Set up the CoolMasterTCP climate platform."""
     info = hass.data[DOMAIN][config_entry.entry_id][DATA_INFO]
     coordinator = hass.data[DOMAIN][config_entry.entry_id][DATA_COORDINATOR]
     supported_modes = config_entry.data.get(CONF_SUPPORTED_MODES)

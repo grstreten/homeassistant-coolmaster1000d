@@ -1,4 +1,4 @@
-"""Button platform for CoolMasterNet integration."""
+"""Button platform for CoolMasterTCP integration."""
 from __future__ import annotations
 
 from homeassistant.components.button import ButtonEntity, ButtonEntityDescription
@@ -16,7 +16,7 @@ async def async_setup_entry(
     config_entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Set up the CoolMasterNet button platform."""
+    """Set up the CoolMasterTCP button platform."""
     info = hass.data[DOMAIN][config_entry.entry_id][DATA_INFO]
     coordinator = hass.data[DOMAIN][config_entry.entry_id][DATA_COORDINATOR]
     async_add_entities(
