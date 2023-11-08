@@ -6,8 +6,5 @@
         "@grstreten"
     ],
     "config_flow": true,
-    "iot_class": "local_polling",
-    "requirements": [
-        "git+https://github.com/grstreten/pycoolmasternet-async.git#pycoolmasternet-async"
-    ]
+    "iot_class": "local_polling"
 }
