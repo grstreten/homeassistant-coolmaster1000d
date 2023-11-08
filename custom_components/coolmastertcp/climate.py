@@ -4,7 +4,7 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from pycoolmastertcp_async import SWING_MODES
+from .pycoolmastertcp_async import SWING_MODES
 
 from homeassistant.components.climate import (
     ClimateEntity,
