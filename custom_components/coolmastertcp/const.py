@@ -3,7 +3,7 @@
 DATA_INFO = "info"
 DATA_COORDINATOR = "coordinator"
 
-DOMAIN = "coolmaster"
+DOMAIN = "coolmastertcp"
 
 DEFAULT_PORT = 4196
 
