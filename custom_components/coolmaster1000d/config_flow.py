@@ -40,10 +40,10 @@ async def _validate_connection(host: str) -> bool:
     return bool(units)
 
 
-class CoolmasterConfigFlow(ConfigFlow, domain=DOMAIN):
+class CoolmasterDConfigFlow(ConfigFlow, domain=DOMAIN):
     """Handle a Coolmaster config flow."""
 
-    VERSION = 1
+    VERSION = 2
 
     @callback
     def _async_get_entry(self, data: dict[str, Any]) -> FlowResult:
