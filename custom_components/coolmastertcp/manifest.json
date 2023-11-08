@@ -1,12 +1,11 @@
 {
-    "domain": "coolmaster",
-    "name": "CoolMaster 1000D",
+    "domain": "coolmastertcp",
+    "name": "CoolMasterTCP",
     "version": "1.0",
     "codeowners": [
         "@grstreten"
     ],
     "config_flow": true,
-    "documentation": "https://www.home-assistant.io/integrations/coolmaster",
     "iot_class": "local_polling",
     "loggers": [
         "pycoolmasternet_async"
