@@ -24,6 +24,7 @@ CM_TO_HA_STATE = {
     "heat": HVACMode.HEAT,
     "cool": HVACMode.COOL,
     "auto": HVACMode.HEAT_COOL,
+    "aut0": HVACMode.HEAT_COOL,
     "autc": HVACMode.HEAT_COOL,
     "auth": HVACMode.HEAT_COOL,
     "dry": HVACMode.DRY,
@@ -31,7 +32,7 @@ CM_TO_HA_STATE = {
 }
 
 HA_STATE_TO_CM = {
-    value: key for key, value in CM_TO_HA_STATE.items() if key not in ["auth", "autc"]
+    value: key for key, value in CM_TO_HA_STATE.items() if key not in ["auth", "autc", "aut0"]
 }
 
 FAN_MODES = ["low", "high"]
